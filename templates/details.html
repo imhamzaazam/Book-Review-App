@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Details
+{% endblock %}
+
+{% block main %}
+    <a class="username" href="{{ url_for('index') }}">{{username}}</a>
+    <h1 class="text-center">{{ book.title }}</h1>
+    <br>
+    <h2>Details:</h2>
+    {% if no_book %}
+        <li>No details about this book!</li>
+    {% else %}
+        <ul>
+            <li>Title: {{book.title}}</li>
+            <li>Author: {{book.author}}</li>
+            <li>Year: {{book.year}}</li>
+            <li>Isbn: {{book.isbn}}</li>
+        </ul>
+    {% endif %}
+    <hr>
+   
+    <div class="beside">
+        <div>
+            <form action="{{ url_for('book', book_id=book.id) }}" method="post">
+                <h1>Add a review:</h1>
+                <h5 class="text-danger">{{message}}</h5>
+                <textarea rows="4" cols="50" name="review_text" placeholder="Say something about this book!" required></textarea>
+                <br>
+                Average Rate: <select name="avg_rate">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    
+                </select> of 5
+                <br>
+                <button style="margin-top: 10px" class="btn btn-primary">Subtmit review</button>
+            </form>
+        </div> 
+        <div class="to-right">
+                <h2>GoodReads Review:</h2>
+                <ul>
+                    <li>Ratings: {{rating_num}}</li>
+                    <li>Avg_rate: {{api_avg_rate}} of 5</li>
+                </ul>   
+                <h2>Users reviews:</h2>
+                <ul>
+                    {% for review in reviews %}
+                        <hr>
+                        <li>Submitted by: {{review.user_id}}</li>
+                        <li>Review: {{review.text}}</li>
+                        <li>Avg_rate: {{review.rating}} of 5</li>
+                        <hr>
+                    
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    
+</div>
+{% endblock %}
